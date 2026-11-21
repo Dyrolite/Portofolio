@@ -1,403 +1,1164 @@
 <!doctype html>
 <html lang="id">
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Portofolio Game Programmer</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Instrument+Sans:wght@400;500;600&display=swap">
-<style>
-:root{--bg:#e9eef3;--surface:#fff;--ink:#101828;--muted:#4b5a73;--line:#c9d3df;--accent:#2f5bea;--accent-ink:#fff;--hi:#ffb400;--wall:#101828;--cell:#dde5ee;
- --head:"Bricolage Grotesque","Trebuchet MS",sans-serif;--body:"Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
- box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1623;--surface:#18223a;--ink:#e8edf6;--muted:#9fb0cb;--line:#2b3957;--accent:#6f93ff;--accent-ink:#0f1623;--wall:#e8edf6;--cell:#1f2c47;color-scheme:dark}}
-:root[data-theme="dark"]{--bg:#0f1623;--surface:#18223a;--ink:#e8edf6;--muted:#9fb0cb;--line:#2b3957;--accent:#6f93ff;--accent-ink:#0f1623;--wall:#e8edf6;--cell:#1f2c47;color-scheme:dark}
-html{scroll-behavior:smooth;scroll-padding-top:calc(72px + env(safe-area-inset-top,0px));height:auto}
-*,*::before,*::after{box-sizing:inherit}
-body{margin:0;background:var(--bg);color:var(--ink);font:400 1rem/1.65 var(--body);overflow-x:hidden}
-img,video,iframe,canvas{max-width:100%;display:block}
-h1,h2,h3{font-family:var(--head);line-height:1.1;margin:0;letter-spacing:-.01em}
-a{color:inherit}
-:focus-visible{outline:3px solid var(--hi);outline-offset:2px}
-.wrap{width:min(1120px,100% - 40px);margin-inline:auto}
-section{padding:88px 0}
-.sec-title{font-size:clamp(1.9rem,4vw,2.7rem);font-weight:800;margin-bottom:12px}
-.sec-sub{color:var(--muted);max-width:60ch;margin:0 0 36px}
-.btn{display:inline-flex;align-items:center;gap:8px;font:600 .95rem var(--body);padding:12px 20px;border:2px solid var(--ink);background:var(--surface);color:var(--ink);text-decoration:none;cursor:pointer;border-radius:4px;box-shadow:4px 4px 0 var(--ink);transition:transform .12s,box-shadow .12s}
-.btn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink)}
-.btn:active{transform:translate(4px,4px);box-shadow:0 0 0 var(--ink)}
-.btn.primary{background:var(--accent);color:var(--accent-ink)}
-.btn.small{padding:8px 14px;font-size:.85rem;box-shadow:3px 3px 0 var(--ink)}
-.btn[aria-disabled="true"]{opacity:.5;pointer-events:none;box-shadow:none}
-/* nav */
-header{position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:2px solid var(--ink);padding-top:env(safe-area-inset-top,0px)}
-.nav{display:flex;align-items:center;justify-content:space-between;height:64px}
-.logo{font:800 1.15rem var(--head);text-decoration:none}
-.links{display:flex;gap:6px;align-items:center}
-.links a,.links button{font:500 .95rem var(--body);text-decoration:none;padding:8px 12px;border-radius:4px;border:0;background:none;color:var(--ink);cursor:pointer}
-.links a:hover,.links button:hover{background:var(--surface)}
-.links a.active{background:var(--ink);color:var(--bg)}
-.burger{display:none;font:600 .9rem var(--body);padding:8px 14px;border:2px solid var(--ink);background:var(--surface);color:var(--ink);border-radius:4px;cursor:pointer}
-@media(max-width:760px){.burger{display:block}.links{display:none;position:absolute;left:0;right:0;top:100%;flex-direction:column;align-items:stretch;background:var(--bg);border-bottom:2px solid var(--ink);padding:10px 20px 16px}.links.open{display:flex}.links a,.links button{padding:12px;text-align:left}}
-/* hero */
-.hero{padding:56px 0 72px}
-.hero-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:48px;align-items:center}
-.who{display:flex;gap:20px;align-items:center;margin-bottom:24px}
-.photo{width:104px;height:104px;flex:none;border:2px solid var(--ink);background:var(--surface);border-radius:4px;overflow:hidden;display:grid;place-items:center}
-.photo img{width:100%;height:100%;object-fit:cover}
-.role{font-weight:600;color:var(--accent)}
-.hero h1{font-size:clamp(2.4rem,6vw,4.2rem);font-weight:800}
-.hero p.lead{font-size:1.15rem;color:var(--muted);max-width:46ch;margin:20px 0 28px}
-.cta{display:flex;gap:14px;flex-wrap:wrap}
-.pathbox{background:var(--surface);border:2px solid var(--ink);border-radius:4px;padding:14px;box-shadow:6px 6px 0 var(--ink)}
-.pathbox canvas{width:100%;aspect-ratio:16/9;cursor:crosshair;touch-action:manipulation;border-radius:2px}
-.pathbar{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-top:12px;font-size:.85rem;color:var(--muted)}
-.pathbar div{display:flex;gap:8px}
-@media(max-width:900px){.hero-grid{grid-template-columns:1fr;gap:36px}section{padding:64px 0}}
-/* about */
-.about-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:40px}
-.about-grid p{margin:0 0 16px;max-width:62ch}
-.panel{background:var(--surface);border:2px solid var(--ink);border-radius:4px;padding:22px}
-.panel h3{font-size:1.1rem;margin-bottom:14px}
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 22px;padding:0;list-style:none}
-.chips:last-child{margin-bottom:0}
-.chip{font-size:.85rem;font-weight:500;padding:4px 10px;border:1.5px solid var(--ink);border-radius:3px;background:var(--bg)}
-@media(max-width:900px){.about-grid{grid-template-columns:1fr}}
-/* contact */
-.contact{background:var(--ink);color:var(--bg)}
-.contact .sec-sub{color:var(--line)}
-.socials{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
-.social{display:flex;align-items:center;gap:12px;padding:14px 16px;border:2px solid var(--bg);border-radius:4px;text-decoration:none;color:var(--bg);transition:background .12s,color .12s}
-.social:hover{background:var(--bg);color:var(--ink)}
-.social:active{transform:scale(.98)}
-.social svg{width:22px;height:22px;flex:none;fill:currentColor}
-.social small{display:block;opacity:.7;font-size:.78rem;line-height:1.2}
-.social[aria-disabled="true"]{opacity:.45;pointer-events:none;border-style:dashed}
-/* projects */
-.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:24px}
-.card{background:var(--surface);border:2px solid var(--ink);border-radius:4px;display:flex;flex-direction:column;overflow:hidden;transition:transform .15s,box-shadow .15s}
-.card:hover{transform:translate(-3px,-3px);box-shadow:6px 6px 0 var(--ink)}
-.media{aspect-ratio:16/9;background:var(--cell);border-bottom:2px solid var(--ink);display:grid;place-items:center;overflow:hidden;font:800 3rem var(--head);color:var(--muted)}
-.media img,.media video{width:100%;height:100%;object-fit:cover}
-.card-body{padding:20px;display:flex;flex-direction:column;gap:12px;flex:1}
-.card h3{font-size:1.4rem}
-.card p{margin:0;color:var(--muted);font-size:.95rem}
-.meta{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:.88rem;margin:0}
-.meta dt{font-weight:600}.meta dd{margin:0;color:var(--muted)}
-.card-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:auto;padding-top:6px}
-/* play */
-.play-layout{display:grid;grid-template-columns:240px 1fr;gap:24px;align-items:start}
-.picker{display:flex;flex-direction:column;gap:8px}
-.pick{text-align:left;font:600 .95rem var(--body);padding:12px 14px;border:2px solid var(--ink);background:var(--surface);color:var(--ink);border-radius:4px;cursor:pointer;transition:background .12s}
-.pick:hover{background:var(--cell)}
-.pick[aria-selected="true"]{background:var(--accent);color:var(--accent-ink)}
-.stage{background:var(--surface);border:2px solid var(--ink);border-radius:4px;padding:16px}
-.frame{position:relative;width:100%;background:var(--cell);border:2px solid var(--ink);border-radius:2px;overflow:hidden}
-.frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
-.empty{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:20px;color:var(--muted);font-size:.92rem}
-.empty code{background:var(--surface);padding:1px 6px;border-radius:3px;border:1px solid var(--line)}
-.stage-bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:14px}
-.stage-bar .note{flex:1 1 220px;font-size:.85rem;color:var(--muted)}
-.widget{margin-top:18px;max-width:552px;width:100%}
-.widget iframe{width:100%;height:167px;border:0}
-@media(max-width:860px){.play-layout{grid-template-columns:1fr}.picker{flex-direction:row;overflow-x:auto;padding-bottom:4px}.pick{white-space:nowrap}}
-/* dialog */
-dialog{width:min(720px,100% - 32px);max-height:88vh;padding:0;border:2px solid var(--ink);border-radius:4px;background:var(--surface);color:var(--ink);box-shadow:8px 8px 0 var(--ink)}
-dialog::backdrop{background:rgba(16,24,40,.6)}
-.dlg-body{padding:24px;display:grid;gap:16px}
-.dlg-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
-.dlg-body h3{font-size:1.7rem}
-.dlg-body ul{margin:0;padding-left:20px}
-.dlg-body h4{margin:0 0 6px;font:600 1rem var(--body)}
-footer{padding:24px 0;border-top:2px solid var(--ink);font-size:.88rem;color:var(--muted)}
-@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Portofolio Game Programmer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Instrument+Sans:wght@400;500;600&display=swap">
+  <style>
+    :root {
+      --bg: #e9eef3;
+      --surface: #fff;
+      --ink: #101828;
+      --muted: #4b5a73;
+      --line: #c9d3df;
+      --accent: #2f5bea;
+      --accent-ink: #fff;
+      --hi: #ffb400;
+      --wall: #101828;
+      --cell: #dde5ee;
+      --head: "Bricolage Grotesque", "Trebuchet MS", sans-serif;
+      --body: "Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+      box-sizing: border-box;
+      padding-top: env(safe-area-inset-top, 0px);
+      padding-bottom: env(safe-area-inset-bottom, 0px)
+    }
+
+    @media (prefers-color-scheme:dark) {
+      :root:not([data-theme="light"]) {
+        --bg: #0f1623;
+        --surface: #18223a;
+        --ink: #e8edf6;
+        --muted: #9fb0cb;
+        --line: #2b3957;
+        --accent: #6f93ff;
+        --accent-ink: #0f1623;
+        --wall: #e8edf6;
+        --cell: #1f2c47;
+        color-scheme: dark
+      }
+    }
+
+    :root[data-theme="dark"] {
+      --bg: #0f1623;
+      --surface: #18223a;
+      --ink: #e8edf6;
+      --muted: #9fb0cb;
+      --line: #2b3957;
+      --accent: #6f93ff;
+      --accent-ink: #0f1623;
+      --wall: #e8edf6;
+      --cell: #1f2c47;
+      color-scheme: dark
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: calc(72px + env(safe-area-inset-top, 0px));
+      height: auto
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: inherit
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font: 400 1rem/1.65 var(--body);
+      overflow-x: hidden
+    }
+
+    img,
+    video,
+    iframe,
+    canvas {
+      max-width: 100%;
+      display: block
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-family: var(--head);
+      line-height: 1.1;
+      margin: 0;
+      letter-spacing: -.01em
+    }
+
+    a {
+      color: inherit
+    }
+
+    :focus-visible {
+      outline: 3px solid var(--hi);
+      outline-offset: 2px
+    }
+
+    .wrap {
+      width: min(1120px, 100% - 40px);
+      margin-inline: auto
+    }
+
+    section {
+      padding: 88px 0
+    }
+
+    .sec-title {
+      font-size: clamp(1.9rem, 4vw, 2.7rem);
+      font-weight: 800;
+      margin-bottom: 12px
+    }
+
+    .sec-sub {
+      color: var(--muted);
+      max-width: 60ch;
+      margin: 0 0 36px
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font: 600 .95rem var(--body);
+      padding: 12px 20px;
+      border: 2px solid var(--ink);
+      background: var(--surface);
+      color: var(--ink);
+      text-decoration: none;
+      cursor: pointer;
+      border-radius: 4px;
+      box-shadow: 4px 4px 0 var(--ink);
+      transition: transform .12s, box-shadow .12s
+    }
+
+    .btn:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0 var(--ink)
+    }
+
+    .btn:active {
+      transform: translate(4px, 4px);
+      box-shadow: 0 0 0 var(--ink)
+    }
+
+    .btn.primary {
+      background: var(--accent);
+      color: var(--accent-ink)
+    }
+
+    .btn.small {
+      padding: 8px 14px;
+      font-size: .85rem;
+      box-shadow: 3px 3px 0 var(--ink)
+    }
+
+    .btn[aria-disabled="true"] {
+      opacity: .5;
+      pointer-events: none;
+      box-shadow: none
+    }
+
+    /* nav */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: var(--bg);
+      border-bottom: 2px solid var(--ink);
+      padding-top: env(safe-area-inset-top, 0px)
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px
+    }
+
+    .logo {
+      font: 800 1.15rem var(--head);
+      text-decoration: none
+    }
+
+    .links {
+      display: flex;
+      gap: 6px;
+      align-items: center
+    }
+
+    .links a,
+    .links button {
+      font: 500 .95rem var(--body);
+      text-decoration: none;
+      padding: 8px 12px;
+      border-radius: 4px;
+      border: 0;
+      background: none;
+      color: var(--ink);
+      cursor: pointer
+    }
+
+    .links a:hover,
+    .links button:hover {
+      background: var(--surface)
+    }
+
+    .links a.active {
+      background: var(--ink);
+      color: var(--bg)
+    }
+
+    .burger {
+      display: none;
+      font: 600 .9rem var(--body);
+      padding: 8px 14px;
+      border: 2px solid var(--ink);
+      background: var(--surface);
+      color: var(--ink);
+      border-radius: 4px;
+      cursor: pointer
+    }
+
+    @media(max-width:760px) {
+      .burger {
+        display: block
+      }
+
+      .links {
+        display: none;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 100%;
+        flex-direction: column;
+        align-items: stretch;
+        background: var(--bg);
+        border-bottom: 2px solid var(--ink);
+        padding: 10px 20px 16px
+      }
+
+      .links.open {
+        display: flex
+      }
+
+      .links a,
+      .links button {
+        padding: 12px;
+        text-align: left
+      }
+    }
+
+    /* hero */
+    .hero {
+      padding: 56px 0 72px
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 1fr;
+      gap: 48px;
+      align-items: center
+    }
+
+    .who {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      margin-bottom: 24px
+    }
+
+    .photo {
+      width: 104px;
+      height: 104px;
+      flex: none;
+      border: 2px solid var(--ink);
+      background: var(--surface);
+      border-radius: 4px;
+      overflow: hidden;
+      display: grid;
+      place-items: center
+    }
+
+    .photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover
+    }
+
+    .role {
+      font-weight: 600;
+      color: var(--accent)
+    }
+
+    .hero h1 {
+      font-size: clamp(2.4rem, 6vw, 4.2rem);
+      font-weight: 800
+    }
+
+    .hero p.lead {
+      font-size: 1.15rem;
+      color: var(--muted);
+      max-width: 46ch;
+      margin: 20px 0 28px
+    }
+
+    .cta {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap
+    }
+
+    .pathbox {
+      background: var(--surface);
+      border: 2px solid var(--ink);
+      border-radius: 4px;
+      padding: 14px;
+      box-shadow: 6px 6px 0 var(--ink)
+    }
+
+    .pathbox canvas {
+      width: 100%;
+      aspect-ratio: 16/9;
+      cursor: crosshair;
+      touch-action: manipulation;
+      border-radius: 2px
+    }
+
+    .pathbar {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin-top: 12px;
+      font-size: .85rem;
+      color: var(--muted)
+    }
+
+    .pathbar div {
+      display: flex;
+      gap: 8px
+    }
+
+    @media(max-width:900px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 36px
+      }
+
+      section {
+        padding: 64px 0
+      }
+    }
+
+    /* about */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 40px
+    }
+
+    .about-grid p {
+      margin: 0 0 16px;
+      max-width: 62ch
+    }
+
+    .panel {
+      background: var(--surface);
+      border: 2px solid var(--ink);
+      border-radius: 4px;
+      padding: 22px
+    }
+
+    .panel h3 {
+      font-size: 1.1rem;
+      margin-bottom: 14px
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 0 0 22px;
+      padding: 0;
+      list-style: none
+    }
+
+    .chips:last-child {
+      margin-bottom: 0
+    }
+
+    .chip {
+      font-size: .85rem;
+      font-weight: 500;
+      padding: 4px 10px;
+      border: 1.5px solid var(--ink);
+      border-radius: 3px;
+      background: var(--bg)
+    }
+
+    @media(max-width:900px) {
+      .about-grid {
+        grid-template-columns: 1fr
+      }
+    }
+
+    /* contact */
+    .contact {
+      background: var(--ink);
+      color: var(--bg)
+    }
+
+    .contact .sec-sub {
+      color: var(--line)
+    }
+
+    .socials {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 14px
+    }
+
+    .social {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      border: 2px solid var(--bg);
+      border-radius: 4px;
+      text-decoration: none;
+      color: var(--bg);
+      transition: background .12s, color .12s
+    }
+
+    .social:hover {
+      background: var(--bg);
+      color: var(--ink)
+    }
+
+    .social:active {
+      transform: scale(.98)
+    }
+
+    .social svg {
+      width: 22px;
+      height: 22px;
+      flex: none;
+      fill: currentColor
+    }
+
+    .social small {
+      display: block;
+      opacity: .7;
+      font-size: .78rem;
+      line-height: 1.2
+    }
+
+    .social[aria-disabled="true"] {
+      opacity: .45;
+      pointer-events: none;
+      border-style: dashed
+    }
+
+    /* projects */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 24px
+    }
+
+    .card {
+      background: var(--surface);
+      border: 2px solid var(--ink);
+      border-radius: 4px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transition: transform .15s, box-shadow .15s
+    }
+
+    .card:hover {
+      transform: translate(-3px, -3px);
+      box-shadow: 6px 6px 0 var(--ink)
+    }
+
+    .media {
+      aspect-ratio: 16/9;
+      background: var(--cell);
+      border-bottom: 2px solid var(--ink);
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      font: 800 3rem var(--head);
+      color: var(--muted)
+    }
+
+    .media img,
+    .media video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover
+    }
+
+    .card-body {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      flex: 1
+    }
+
+    .card h3 {
+      font-size: 1.4rem
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: .95rem
+    }
+
+    .meta {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 4px 12px;
+      font-size: .88rem;
+      margin: 0
+    }
+
+    .meta dt {
+      font-weight: 600
+    }
+
+    .meta dd {
+      margin: 0;
+      color: var(--muted)
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: auto;
+      padding-top: 6px
+    }
+
+    /* play */
+    .play-layout {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 24px;
+      align-items: start
+    }
+
+    .picker {
+      display: flex;
+      flex-direction: column;
+      gap: 8px
+    }
+
+    .pick {
+      text-align: left;
+      font: 600 .95rem var(--body);
+      padding: 12px 14px;
+      border: 2px solid var(--ink);
+      background: var(--surface);
+      color: var(--ink);
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background .12s
+    }
+
+    .pick:hover {
+      background: var(--cell)
+    }
+
+    .pick[aria-selected="true"] {
+      background: var(--accent);
+      color: var(--accent-ink)
+    }
+
+    .stage {
+      background: var(--surface);
+      border: 2px solid var(--ink);
+      border-radius: 4px;
+      padding: 16px
+    }
+
+    .frame {
+      position: relative;
+      width: 100%;
+      background: var(--cell);
+      border: 2px solid var(--ink);
+      border-radius: 2px;
+      overflow: hidden
+    }
+
+    .frame iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0
+    }
+
+    .empty {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 20px;
+      color: var(--muted);
+      font-size: .92rem
+    }
+
+    .empty code {
+      background: var(--surface);
+      padding: 1px 6px;
+      border-radius: 3px;
+      border: 1px solid var(--line)
+    }
+
+    /* play overlay */
+    .poster {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      padding: 0;
+      border: 0;
+      background: var(--cell);
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      color: var(--ink);
+      font-family: var(--body)
+    }
+
+    .poster img,
+    .poster video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover
+    }
+
+    .poster::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(16, 24, 40, .35);
+      transition: background .15s
+    }
+
+    .poster:hover::after {
+      background: rgba(16, 24, 40, .2)
+    }
+
+    .poster-ph {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      z-index: 2;
+      font: 500 .85rem var(--body);
+      color: var(--ink)
+    }
+
+    .poster-title {
+      position: absolute;
+      left: 12px;
+      bottom: 12px;
+      z-index: 2;
+      max-width: calc(100% - 24px);
+      padding: 4px 10px;
+      background: var(--surface);
+      border: 2px solid var(--ink);
+      border-radius: 3px;
+      font: 600 .9rem var(--body);
+      color: var(--ink);
+      text-align: left
+    }
+
+    .play-btn {
+      position: relative;
+      z-index: 2;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 26px;
+      background: var(--accent);
+      color: var(--accent-ink);
+      border: 2px solid var(--ink);
+      border-radius: 4px;
+      box-shadow: 4px 4px 0 var(--ink);
+      font: 800 1.1rem var(--head);
+      transition: transform .12s, box-shadow .12s
+    }
+
+    .poster:hover .play-btn {
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0 var(--ink)
+    }
+
+    .poster:active .play-btn {
+      transform: translate(4px, 4px);
+      box-shadow: 0 0 0 var(--ink)
+    }
+
+    .poster:focus-visible {
+      outline-offset: -5px
+    }
+
+    .poster:focus-visible .play-btn {
+      box-shadow: 0 0 0 3px var(--hi), 4px 4px 0 var(--ink)
+    }
+
+    .stage-bar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-top: 14px
+    }
+
+    .stage-bar .note {
+      flex: 1 1 220px;
+      font-size: .85rem;
+      color: var(--muted)
+    }
+
+    .widget {
+      margin-top: 18px;
+      max-width: 552px;
+      width: 100%
+    }
+
+    .widget iframe {
+      width: 100%;
+      height: 167px;
+      border: 0
+    }
+
+    @media(max-width:860px) {
+      .play-layout {
+        grid-template-columns: 1fr
+      }
+
+      .picker {
+        flex-direction: row;
+        overflow-x: auto;
+        padding-bottom: 4px
+      }
+
+      .pick {
+        white-space: nowrap
+      }
+    }
+
+    /* dialog */
+    dialog {
+      width: min(720px, 100% - 32px);
+      max-height: 88vh;
+      padding: 0;
+      border: 2px solid var(--ink);
+      border-radius: 4px;
+      background: var(--surface);
+      color: var(--ink);
+      box-shadow: 8px 8px 0 var(--ink)
+    }
+
+    dialog::backdrop {
+      background: rgba(16, 24, 40, .6)
+    }
+
+    .dlg-body {
+      padding: 24px;
+      display: grid;
+      gap: 16px
+    }
+
+    .dlg-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: flex-start
+    }
+
+    .dlg-body h3 {
+      font-size: 1.7rem
+    }
+
+    .dlg-body ul {
+      margin: 0;
+      padding-left: 20px
+    }
+
+    .dlg-body h4 {
+      margin: 0 0 6px;
+      font: 600 1rem var(--body)
+    }
+
+    footer {
+      padding: 24px 0;
+      border-top: 2px solid var(--ink);
+      font-size: .88rem;
+      color: var(--muted)
+    }
+
+    @media(prefers-reduced-motion:reduce) {
+      * {
+        transition: none !important;
+        scroll-behavior: auto !important
+      }
+    }
+  </style>
 </head>
+
 <body>
-<header>
- <div class="wrap nav">
-  <a class="logo" href="#top" id="logo"></a>
-  <button class="burger" id="burger" aria-expanded="false" aria-controls="links">Menu</button>
-  <nav class="links" id="links" aria-label="Navigasi utama">
-   <a href="#about">Tentang</a><a href="#projects">Proyek</a><a href="#play">Main</a><a href="#contact">Kontak</a>
-   <button id="theme" aria-label="Ganti tema terang atau gelap">Tema</button>
-  </nav>
- </div>
-</header>
+  <header>
+    <div class="wrap nav">
+      <a class="logo" href="#top" id="logo"></a>
+      <button class="burger" id="burger" aria-expanded="false" aria-controls="links">Menu</button>
+      <nav class="links" id="links" aria-label="Navigasi utama">
+        <a href="#about">Tentang</a><a href="#projects">Proyek</a><a href="#play">Main</a><a href="#contact">Kontak</a>
+        <button id="theme" aria-label="Ganti tema terang atau gelap">Tema</button>
+      </nav>
+    </div>
+  </header>
 
-<main id="top">
-<section class="hero"><div class="wrap hero-grid">
- <div>
-  <div class="who">
-   <div class="photo" id="photo"></div>
-   <div><div class="role" id="role"></div></div>
-  </div>
-  <h1 id="name"></h1>
-  <p class="lead" id="tagline"></p>
-  <div class="cta">
-   <a class="btn primary" href="#projects">View My Projects</a>
-   <a class="btn" href="#contact">Contact Me</a>
-  </div>
- </div>
- <div class="pathbox">
-  <canvas id="grid" width="640" height="360" aria-label="Demo pathfinding: klik kotak untuk membuat atau menghapus dinding"></canvas>
-  <div class="pathbar">
-   <span id="pathinfo">Klik kotak untuk menaruh dinding. Jalur dihitung ulang dengan A*.</span>
-   <div><button class="btn small" id="run">Jalankan</button><button class="btn small" id="reset">Reset</button></div>
-  </div>
- </div>
-</div></section>
+  <main id="top">
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <div class="who">
+            <div class="photo" id="photo"></div>
+            <div>
+              <div class="role" id="role"></div>
+            </div>
+          </div>
+          <h1 id="name"></h1>
+          <p class="lead" id="tagline"></p>
+          <div class="cta">
+            <a class="btn primary" href="#projects">View My Projects</a>
+            <a class="btn" href="#contact">Contact Me</a>
+          </div>
+        </div>
+        <div class="pathbox">
+          <canvas id="grid" width="640" height="360"
+            aria-label="Demo pathfinding: klik kotak untuk membuat atau menghapus dinding"></canvas>
+          <div class="pathbar">
+            <span id="pathinfo">Klik kotak untuk menaruh dinding. Jalur dihitung ulang dengan A*.</span>
+            <div><button class="btn small" id="run">Jalankan</button><button class="btn small" id="reset">Reset</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-<section id="about"><div class="wrap">
- <h2 class="sec-title">Tentang saya</h2>
- <div class="about-grid">
-  <div id="about-text"></div>
-  <div class="panel">
-   <h3>Game engine &amp; teknologi</h3><ul class="chips" id="tech"></ul>
-   <h3>Kemampuan</h3><ul class="chips" id="skills"></ul>
-   <h3>Minat</h3><ul class="chips" id="interests"></ul>
-  </div>
- </div>
-</div></section>
+    <section id="about">
+      <div class="wrap">
+        <h2 class="sec-title">Tentang saya</h2>
+        <div class="about-grid">
+          <div id="about-text"></div>
+          <div class="panel">
+            <h3>Game engine &amp; teknologi</h3>
+            <ul class="chips" id="tech"></ul>
+            <h3>Kemampuan</h3>
+            <ul class="chips" id="skills"></ul>
+            <h3>Minat</h3>
+            <ul class="chips" id="interests"></ul>
+          </div>
+        </div>
+      </div>
+    </section>
 
-<section id="projects"><div class="wrap">
- <h2 class="sec-title">Game projects</h2>
- <p class="sec-sub">Pilih “Detail” untuk melihat kontribusi dan tanggung jawab saya di setiap proyek.</p>
- <div class="cards" id="cards"></div>
-</div></section>
+    <section id="projects">
+      <div class="wrap">
+        <h2 class="sec-title">Game projects</h2>
+        <p class="sec-sub">Pilih “Detail” untuk melihat kontribusi dan tanggung jawab saya di setiap proyek.</p>
+        <div class="cards" id="cards"></div>
+      </div>
+    </section>
 
-<section id="play" style="background:var(--cell)"><div class="wrap">
- <h2 class="sec-title">Mainkan di sini</h2>
- <p class="sec-sub">Game WebGL/HTML5 dari itch.io berjalan langsung di halaman ini lewat embed resmi.</p>
- <div class="play-layout">
-  <div class="picker" id="picker" role="tablist" aria-label="Pilih game"></div>
-  <div class="stage">
-   <div class="frame" id="frame"></div>
-   <div class="stage-bar">
-    <span class="note" id="note"></span>
-    <button class="btn small" id="fs">Layar penuh</button>
-    <a class="btn small primary" id="itchlink" target="_blank" rel="noopener">Buka di itch.io</a>
-   </div>
-   <div class="widget" id="widget"></div>
-  </div>
- </div>
-</div></section>
+    <section id="play" style="background:var(--cell)">
+      <div class="wrap">
+        <h2 class="sec-title">Mainkan di sini</h2>
+        <p class="sec-sub">Game WebGL/HTML5 dari itch.io berjalan langsung di halaman ini lewat embed resmi.</p>
+        <div class="play-layout">
+          <div class="picker" id="picker" role="tablist" aria-label="Pilih game"></div>
+          <div class="stage">
+            <div class="frame" id="frame"></div>
+            <div class="stage-bar">
+              <span class="note" id="note"></span>
+              <button class="btn small" id="fs">Layar penuh</button>
+              <a class="btn small primary" id="itchlink" target="_blank" rel="noopener">Buka di itch.io</a>
+            </div>
+            <div class="widget" id="widget"></div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-<section class="contact" id="contact"><div class="wrap">
- <h2 class="sec-title">Kontak &amp; media sosial</h2>
- <p class="sec-sub">Terbuka untuk kolaborasi, game jam, dan peluang kerja.</p>
- <div class="socials" id="socials"></div>
-</div></section>
-</main>
-<footer><div class="wrap" id="foot"></div></footer>
+    <section class="contact" id="contact">
+      <div class="wrap">
+        <h2 class="sec-title">Kontak &amp; media sosial</h2>
+        <p class="sec-sub">Terbuka untuk kolaborasi, game jam, dan peluang kerja.</p>
+        <div class="socials" id="socials"></div>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap" id="foot"></div>
+  </footer>
 
-<dialog id="dlg" aria-labelledby="dlg-title"><div class="dlg-body" id="dlg-body"></div></dialog>
+  <dialog id="dlg" aria-labelledby="dlg-title">
+    <div class="dlg-body" id="dlg-body"></div>
+  </dialog>
 
-<script>
-/* =====================================================================
-   DATA — edit bagian ini saja. Kosongkan string ("") untuk menyembunyikan/menonaktifkan.
-   ===================================================================== */
-const PROFILE = {
-  name: "Nama Anda",                       // TODO: ganti dengan nama Anda
-  role: "Game Programmer",
-  tagline: "TODO: tulis satu atau dua kalimat tentang apa yang Anda bangun dan fokus Anda.",
-  photo: "",                               // URL foto, mis. "foto.jpg". Kosong = placeholder
-  about: [
-    "TODO: perkenalan singkat tentang diri Anda.",
-    "TODO: ceritakan minat Anda dalam pengembangan game."
-  ],
-  engines: ["Unity", "Godot", "Unreal Engine"],     // TODO: sesuaikan
-  skills: ["C#", "C++", "Gameplay systems", "AI & pathfinding", "Optimasi"], // TODO: sesuaikan
-  interests: ["TODO: minat 1", "TODO: minat 2"],
-  contacts: [   // url kosong = tampil nonaktif. icon: github | linkedin | instagram | email | itch | youtube | x
-    { label: "GitHub",    icon: "github",    url: "" },
-    { label: "LinkedIn",  icon: "linkedin",  url: "" },
-    { label: "Instagram", icon: "instagram", url: "" },
-    { label: "Email",     icon: "email",     url: "" },   // isi dengan "mailto:alamat@email.com"
-    { label: "itch.io",   icon: "itch",      url: "" },
-    { label: "YouTube",   icon: "youtube",   url: "" }
-  ]
-};
+  <script>
+    /* =====================================================================
+       DATA — edit bagian ini saja. Kosongkan string ("") untuk menyembunyikan/menonaktifkan.
+       ===================================================================== */
+    const PROFILE = {
+      name: "Fakhry Nafis Saputra",                       // TODO: ganti dengan nama Anda
+      role: "Game Programmer",
+      tagline: "Terus belajar, terus berkarya, dan terus menciptakan hal baru melalui game.",
+      photo: "",                               // URL foto, mis. "foto.jpg". Kosong = placeholder
+      about: [
+        "Saya merupakan mahasiswa S1 Teknik Informatika Universitas Negeri Semarang yang memiliki pengalaman mengerjakan berbagai proyek pengembangan game, baik secara individu maupun kolaborasi tim. Saya memiliki kemampuan pemrograman menggunakan C# serta pengalaman menggunakan Unity dan Godot.",
+        "Saya memiliki minat dalam bidang Game Development, khususnya Game Programming dan Game Design. Saya tertarik mengembangkan mekanisme gameplay, sistem permainan, serta merancang pengalaman bermain yang menarik melalui perpaduan aspek teknis dan kreatif."
+      ],
+      engines: ["Unity", "Godot"],     // TODO: sesuaikan
+      skills: ["C#", "C++", "Gameplay systems", "Game Mechanic", "Game Design"], // TODO: sesuaikan
+      interests: ["Game Programming", "Game design"],
+      contacts: [   // url kosong = tampil nonaktif. icon: github | linkedin | instagram | email | itch | youtube | x
+        { label: "GitHub", icon: "github", url: "https://github.com/Dyrolite" },
+        { label: "LinkedIn", icon: "linkedin", url: "https://www.linkedin.com/in/fakhry-nafis-saputra/" },
+        { label: "Instagram", icon: "instagram", url: "https://www.instagram.com/fakhry_nafis/" },
+        { label: "Email", icon: "email", url: "mailto:fakhrynafiss@gmail.com" },   // isi dengan "mailto:alamat@email.com"
+        { label: "itch.io", icon: "itch", url: "https://dyrolite.itch.io/" },
+        // {label: "YouTube", icon: "youtube", url: ""}
+      ]
+    };
 
-/* Tambah game baru = tambah satu objek di array ini.
-   itch.embedSrc : URL embed ATAU tempel langsung seluruh kode <iframe ...> dari itch.io (Embed game > "Embed" )
-   itch.widgetSrc: URL atau kode <iframe> widget dari itch.io (Edit game > Widget)
-   itch.pageUrl  : halaman game di itch.io (dipakai tombol fallback)
-   itch.ratio    : rasio area game, mis. "16/9", "4/3"
-   media.type    : "image" | "video" (mp4/webm) | "" ; media.src: gif/screenshot/video */
-const PROJECTS = [
-  { id: "game-1", title: "Nama Game 1", summary: "TODO: deskripsi singkat game.",
-    genre: "TODO", platform: "WebGL, Windows", tech: ["Unity", "C#"],
-    role: "TODO: peran Anda",
-    contributions: ["TODO: tanggung jawab 1", "TODO: tanggung jawab 2"],
-    media: { type: "", src: "", alt: "Cuplikan gameplay Nama Game 1" },
-    itch: { pageUrl: "", embedSrc: "", widgetSrc: "", ratio: "16/9" } },
-  { id: "game-2", title: "Nama Game 2", summary: "TODO: deskripsi singkat game.",
-    genre: "TODO", platform: "Android", tech: ["Godot", "GDScript"],
-    role: "TODO: peran Anda",
-    contributions: ["TODO: tanggung jawab 1", "TODO: tanggung jawab 2"],
-    media: { type: "", src: "", alt: "Cuplikan gameplay Nama Game 2" },
-    itch: { pageUrl: "", embedSrc: "", widgetSrc: "", ratio: "16/9" } },
-  { id: "game-3", title: "Nama Game 3", summary: "TODO: deskripsi singkat game.",
-    genre: "TODO", platform: "PC", tech: ["Unreal Engine", "C++"],
-    role: "TODO: peran Anda",
-    contributions: ["TODO: tanggung jawab 1", "TODO: tanggung jawab 2"],
-    media: { type: "", src: "", alt: "Cuplikan gameplay Nama Game 3" },
-    itch: { pageUrl: "", embedSrc: "", widgetSrc: "", ratio: "16/9" } }
-];
+    /* Tambah game baru = tambah satu objek di array ini.
+       itch.embedSrc : URL embed ATAU tempel langsung seluruh kode <iframe ...> dari itch.io (Embed game > "Embed" )
+       itch.widgetSrc: URL atau kode <iframe> widget dari itch.io (Edit game > Widget)
+       itch.pageUrl  : halaman game di itch.io (dipakai tombol fallback)
+       itch.ratio    : rasio area game, mis. "16/9", "4/3"
+       itch.preview  : (opsional) gambar/GIF/video cadangan overlay Play bila media.src kosong.
+                       Thumbnail utama = media.src. Jika keduanya kosong tampil teks placeholder.
+       media.type    : "image" | "video" (mp4/webm) | "" ; media.src: gif/screenshot/video */
+    const PROJECTS = [
+      {
+        id: "game-2", title: "Dihuni Rob", summary: "Game survival City Building dimana pemain berperan sebagai kepala desa sementara di desa yang terkena bencana Banjir Rob. Pemain bertugas untuk mengembalikan harapan masyaakat yang hilang",
+        genre: "City Building, Survival, Puzzle", platform: "Windows", tech: ["Unity", "C#"],
+        role: "Game Programmer",
+        contributions: ["Mengimplementasikan UI main menu, pause, dan gameplay, termasuk animasi idle pada main menu", "Mengembangkan mekanisme pembangunan berbasis grid isometrik beserta panel informasi bangunan", "Mengimplementasikan sistem dialog dan cutscene prolog untuk mendukung penyampaian cerita dalam permainan", "Mengembangkan sistem quest atau misi beserta notifikasi untuk memberikan informasi progres kepada pemain", "Mengimplementasikan tutorial berbasis minigame untuk memperkenalkan mekanisme permainan kepada pemain"],
+        media: { type: "", src: "", alt: "Cuplikan gameplay Nama Game 2" },
+        itch: { pageUrl: "https://senphi23.itch.io/dihunirob-tanah-air-yang-sulit-ditinggali", embedSrc: "https://itch.io/embed-upload/20723349?color=0f172a", widgetSrc: "https://itch.io/embed/5369831", ratio: "16/9" }
+      },
+      {
+        id: "game-1", title: "The Rat", summary: "Pacman, namun versi kondisi politik indonesia, tikus yang mengumpulkan koin dan dikejar oleh warga. Maionkan dengan WASD",
+        genre: "puzzle", platform: "Web browser, Windows", tech: ["Godot", "GDscript"],
+        role: "Game Programmer",
+        contributions: ["Membuat player movement", "membuat sistem point dan nyawa", "membuat AI untuk para hantunya"],
+        media: { type: "", src: "", alt: "Cuplikan gameplay Nama Game 1" },
+        itch: { pageUrl: "https://dyrolite.itch.io/the-rat", embedSrc: "https://itch.io/embed-upload/14964992?color=333333", widgetSrc: "https://itch.io/embed/3885678", ratio: "16/9" }
+      },
+      {
+        id: "game-3", title: "Nama Game 3", summary: "TODO: deskripsi singkat game.",
+        genre: "TODO", platform: "PC", tech: ["Unreal Engine", "C++"],
+        role: "TODO: peran Anda",
+        contributions: ["TODO: tanggung jawab 1", "TODO: tanggung jawab 2"],
+        media: { type: "", src: "", alt: "Cuplikan gameplay Nama Game 3" },
+        itch: { pageUrl: "", embedSrc: "", widgetSrc: "", ratio: "16/9" }
+      }
+    ];
 
-/* =====================================================================
-   TAMPILAN — tidak perlu diubah untuk menambah game.
-   ===================================================================== */
-const $ = (s, r = document) => r.querySelector(s);
-const el = (tag, attrs = {}, kids = []) => {
-  const n = document.createElement(tag);
-  for (const [k, v] of Object.entries(attrs)) {
-    if (k === "text") n.textContent = v; else if (k === "class") n.className = v;
-    else if (k.startsWith("on")) n.addEventListener(k.slice(2), v); else n.setAttribute(k, v);
-  }
-  [].concat(kids).forEach(c => n.append(c));
-  return n;
-};
-const srcOf = s => { if (!s) return ""; const m = s.match(/src=["']([^"']+)["']/i); return (m ? m[1] : s).trim(); };
-const safeUrl = u => /^(https?:\/\/|mailto:|\/|\.\/|[\w-]+\.(jpg|jpeg|png|gif|webp|svg|mp4|webm))/i.test(u) ? u : "";
+    /* =====================================================================
+       TAMPILAN — tidak perlu diubah untuk menambah game.
+       ===================================================================== */
+    const $ = (s, r = document) => r.querySelector(s);
+    const el = (tag, attrs = {}, kids = []) => {
+      const n = document.createElement(tag);
+      for (const [k, v] of Object.entries(attrs)) {
+        if (k === "text") n.textContent = v; else if (k === "class") n.className = v;
+        else if (k.startsWith("on")) n.addEventListener(k.slice(2), v); else n.setAttribute(k, v);
+      }
+      [].concat(kids).forEach(c => n.append(c));
+      return n;
+    };
+    const srcOf = s => { if (!s) return ""; const m = s.match(/src=["']([^"']+)["']/i); return (m ? m[1] : s).trim(); };
+    const safeUrl = u => /^(https?:\/\/|mailto:|\/|\.\/|[\w-]+\.(jpg|jpeg|png|gif|webp|svg|mp4|webm))/i.test(u) ? u : "";
 
-const ICONS = {
-  github: "M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.34-1.28-1.7-1.28-1.7-1.05-.72.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.47.11-3.06 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.78 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.77.11 3.06.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.4-5.27 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5z",
-  linkedin: "M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05a3.74 3.74 0 0 1 3.37-1.85c3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45z",
-  instagram: "M12 2.2c3.2 0 3.58.01 4.85.07 3.25.15 4.77 1.69 4.92 4.92.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.15 3.23-1.66 4.77-4.92 4.92-1.27.06-1.64.07-4.85.07s-3.58-.01-4.85-.07c-3.26-.15-4.77-1.7-4.92-4.92C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85C2.38 3.9 3.9 2.38 7.15 2.23 8.42 2.17 8.8 2.2 12 2.2zM12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 8.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4zm5.2-9.4a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4z",
-  email: "M2 5.5A1.5 1.5 0 0 1 3.5 4h17A1.5 1.5 0 0 1 22 5.5v13a1.5 1.5 0 0 1-1.5 1.5h-17A1.5 1.5 0 0 1 2 18.5v-13zm2.2.9v.1L12 12.2l7.8-5.7v-.1H4.2zm15.8 2.3-8 5.8-8-5.8v9.8h16V8.7z",
-  itch: "M3.1 3.2C2 3.9 0 6.2 0 6.8v1.6c0 2 1.9 3.7 3.6 3.7 2 0 3.6-1.7 3.6-3.7 0 2 1.6 3.7 3.6 3.7h.4c2 0 3.6-1.7 3.6-3.7 0 2 1.6 3.7 3.6 3.7h.1c1.7 0 3.6-1.700 3.6-3.700V6.800c0-.6-2-2.900-3.100-3.600-3.200-.3-5.500-.4-8.900-.4s-5.800.1-8.900.4zM9.800 13.900a4 4 0 0 1-2.800 1.300 4 4 0 0 1-2.500-.9c-.5 1-.5 3.800-.5 5.100 0 1.200-.1 4.200 1.700 4.700 1.400.3 5.600.5 5.600.5 0 0 4.200-.2 5.600-.5 1.800-.5 1.700-3.500 1.700-4.700 0-1.300 0-4.100-.5-5.100a4 4 0 0 1-2.500.9 4 4 0 0 1-2.800-1.300 4.400 4.400 0 0 1-2.200 1.300 4.400 4.400 0 0 1-2.100-1.300z",
-  youtube: "M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.100 0 12 0 12s0 3.900.5 5.800a3 3 0 0 0 2.100 2.100c1.900.5 9.400.5 9.400.5s7.500 0 9.400-.5a3 3 0 0 0 2.100-2.100c.5-1.900.5-5.800.5-5.800s0-3.900-.5-5.800zM9.600 15.600V8.400l6.200 3.600-6.200 3.600z",
-  x: "M18.2 2h3.4l-7.400 8.500L23 22h-6.800l-5.300-7-6.100 7H1.400l7.900-9.100L1 2h7l4.800 6.400L18.200 2zm-1.200 18h1.900L7 3.900H5L17 20z"
-};
-const svgIcon = k => { const s = document.createElementNS("http://www.w3.org/2000/svg", "svg"); s.setAttribute("viewBox", "0 0 24 24"); s.setAttribute("aria-hidden", "true"); const p = document.createElementNS("http://www.w3.org/2000/svg", "path"); p.setAttribute("d", ICONS[k] || ICONS.email); s.append(p); return s; };
+    const ICONS = {
+      github: "M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.34-1.28-1.7-1.28-1.7-1.05-.72.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.47.11-3.06 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.78 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.77.11 3.06.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.4-5.27 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5z",
+      linkedin: "M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05a3.74 3.74 0 0 1 3.37-1.85c3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45z",
+      instagram: "M12 2.2c3.2 0 3.58.01 4.85.07 3.25.15 4.77 1.69 4.92 4.92.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.15 3.23-1.66 4.77-4.92 4.92-1.27.06-1.64.07-4.85.07s-3.58-.01-4.85-.07c-3.26-.15-4.77-1.7-4.92-4.92C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85C2.38 3.9 3.9 2.38 7.15 2.23 8.42 2.17 8.8 2.2 12 2.2zM12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 8.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4zm5.2-9.4a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4z",
+      email: "M2 5.5A1.5 1.5 0 0 1 3.5 4h17A1.5 1.5 0 0 1 22 5.5v13a1.5 1.5 0 0 1-1.5 1.5h-17A1.5 1.5 0 0 1 2 18.5v-13zm2.2.9v.1L12 12.2l7.8-5.7v-.1H4.2zm15.8 2.3-8 5.8-8-5.8v9.8h16V8.7z",
+      itch: "M3.1 3.2C2 3.9 0 6.2 0 6.8v1.6c0 2 1.9 3.7 3.6 3.7 2 0 3.6-1.7 3.6-3.7 0 2 1.6 3.7 3.6 3.7h.4c2 0 3.6-1.7 3.6-3.7 0 2 1.6 3.7 3.6 3.7h.1c1.7 0 3.6-1.700 3.6-3.700V6.800c0-.6-2-2.900-3.100-3.600-3.200-.3-5.500-.4-8.900-.4s-5.800.1-8.900.4zM9.800 13.900a4 4 0 0 1-2.800 1.300 4 4 0 0 1-2.500-.9c-.5 1-.5 3.800-.5 5.100 0 1.200-.1 4.200 1.700 4.700 1.400.3 5.600.5 5.600.5 0 0 4.200-.2 5.600-.5 1.800-.5 1.700-3.500 1.700-4.700 0-1.300 0-4.100-.5-5.100a4 4 0 0 1-2.500.9 4 4 0 0 1-2.800-1.300 4.400 4.400 0 0 1-2.200 1.300 4.400 4.400 0 0 1-2.100-1.300z",
+      youtube: "M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.100 0 12 0 12s0 3.900.5 5.800a3 3 0 0 0 2.100 2.100c1.900.5 9.400.5 9.400.5s7.500 0 9.400-.5a3 3 0 0 0 2.100-2.100c.5-1.900.5-5.800.5-5.800s0-3.900-.5-5.800zM9.600 15.600V8.400l6.200 3.600-6.200 3.600z",
+      x: "M18.2 2h3.4l-7.400 8.500L23 22h-6.800l-5.300-7-6.100 7H1.400l7.900-9.100L1 2h7l4.800 6.400L18.200 2zm-1.200 18h1.900L7 3.900H5L17 20z"
+    };
+    const svgIcon = k => { const s = document.createElementNS("http://www.w3.org/2000/svg", "svg"); s.setAttribute("viewBox", "0 0 24 24"); s.setAttribute("aria-hidden", "true"); const p = document.createElementNS("http://www.w3.org/2000/svg", "path"); p.setAttribute("d", ICONS[k] || ICONS.email); s.append(p); return s; };
 
-/* ---- profil ---- */
-document.title = PROFILE.name + " | " + PROFILE.role;
-$("#logo").textContent = PROFILE.name;
-$("#name").textContent = PROFILE.name;
-$("#role").textContent = PROFILE.role;
-$("#tagline").textContent = PROFILE.tagline;
-$("#foot").textContent = "© " + new Date().getFullYear() + " " + PROFILE.name;
-const ph = $("#photo");
-if (safeUrl(PROFILE.photo)) ph.append(el("img", { src: PROFILE.photo, alt: "Foto " + PROFILE.name, width: 104, height: 104 }));
-else ph.innerHTML = '<svg viewBox="0 0 24 24" width="56" height="56" aria-label="Placeholder foto profil"><path fill="currentColor" opacity=".35" d="M12 12a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9zm0 2c-4.4 0-8 2.2-8 5v2h16v-2c0-2.800-3.600-5-8-5z"/></svg>';
-PROFILE.about.forEach(t => $("#about-text").append(el("p", { text: t })));
-[["#tech", PROFILE.engines], ["#skills", PROFILE.skills], ["#interests", PROFILE.interests]].forEach(([s, a]) => a.forEach(t => $(s).append(el("li", { class: "chip", text: t }))));
-PROFILE.contacts.forEach(c => {
-  const u = safeUrl(c.url);
-  const a = el("a", { class: "social", href: u || "#contact", "aria-label": c.label + (u ? "" : " (belum diisi)") }, [svgIcon(c.icon), el("span", {}, [c.label, el("small", { text: u ? u.replace(/^https?:\/\/|^mailto:/, "") : "Belum diisi" })])]);
-  if (u) { if (!u.startsWith("mailto:")) { a.target = "_blank"; a.rel = "noopener noreferrer"; } } else a.setAttribute("aria-disabled", "true");
-  $("#socials").append(a);
-});
+    /* ---- profil ---- */
+    document.title = PROFILE.name + " | " + PROFILE.role;
+    $("#logo").textContent = PROFILE.name;
+    $("#name").textContent = PROFILE.name;
+    $("#role").textContent = PROFILE.role;
+    $("#tagline").textContent = PROFILE.tagline;
+    $("#foot").textContent = "© " + new Date().getFullYear() + " " + PROFILE.name;
+    const ph = $("#photo");
+    if (safeUrl(PROFILE.photo)) ph.append(el("img", { src: PROFILE.photo, alt: "Foto " + PROFILE.name, width: 104, height: 104 }));
+    else ph.innerHTML = '<svg viewBox="0 0 24 24" width="56" height="56" aria-label="Placeholder foto profil"><path fill="currentColor" opacity=".35" d="M12 12a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9zm0 2c-4.4 0-8 2.2-8 5v2h16v-2c0-2.800-3.600-5-8-5z"/></svg>';
+    PROFILE.about.forEach(t => $("#about-text").append(el("p", { text: t })));
+    [["#tech", PROFILE.engines], ["#skills", PROFILE.skills], ["#interests", PROFILE.interests]].forEach(([s, a]) => a.forEach(t => $(s).append(el("li", { class: "chip", text: t }))));
+    PROFILE.contacts.forEach(c => {
+      const u = safeUrl(c.url);
+      const a = el("a", { class: "social", href: u || "#contact", "aria-label": c.label + (u ? "" : " (belum diisi)") }, [svgIcon(c.icon), el("span", {}, [c.label, el("small", { text: u ? u.replace(/^https?:\/\/|^mailto:/, "") : "Belum diisi" })])]);
+      if (u) { if (!u.startsWith("mailto:")) { a.target = "_blank"; a.rel = "noopener noreferrer"; } } else a.setAttribute("aria-disabled", "true");
+      $("#socials").append(a);
+    });
 
-/* ---- kartu proyek ---- */
-function mediaNode(p) {
-  const m = p.media || {}, box = el("div", { class: "media" }), u = safeUrl(m.src || "");
-  if (u && m.type === "video") box.append(el("video", { src: u, muted: "", loop: "", playsinline: "", preload: "none", controls: "", "aria-label": m.alt || p.title }));
-  else if (u) box.append(el("img", { src: u, alt: m.alt || p.title, loading: "lazy", decoding: "async", width: 640, height: 360 }));
-  else { box.textContent = p.title.charAt(0); box.setAttribute("role", "img"); box.setAttribute("aria-label", "Placeholder preview " + p.title); }
-  return box;
-}
-const dlg = $("#dlg");
-function openDetail(p) {
-  const b = $("#dlg-body"); b.textContent = "";
-  b.append(el("div", { class: "dlg-head" }, [el("h3", { id: "dlg-title", text: p.title }), el("button", { class: "btn small", text: "Tutup", onclick: () => dlg.close() })]));
-  b.append(mediaNode(p), el("p", { text: p.summary }));
-  b.append(el("dl", { class: "meta" }, [el("dt", { text: "Peran" }), el("dd", { text: p.role }), el("dt", { text: "Genre" }), el("dd", { text: p.genre }), el("dt", { text: "Platform" }), el("dd", { text: p.platform }), el("dt", { text: "Teknologi" }), el("dd", { text: p.tech.join(", ") })]));
-  b.append(el("div", {}, [el("h4", { text: "Kontribusi & tanggung jawab" }), el("ul", {}, p.contributions.map(c => el("li", { text: c })))]));
-  const acts = el("div", { class: "card-actions" });
-  const i = PROJECTS.indexOf(p);
-  acts.append(el("button", { class: "btn small primary", text: "Mainkan di sini", onclick: () => { dlg.close(); selectGame(i); $("#play").scrollIntoView(); } }));
-  if (safeUrl(p.itch.pageUrl)) acts.append(el("a", { class: "btn small", href: p.itch.pageUrl, target: "_blank", rel: "noopener noreferrer", text: "Halaman itch.io" }));
-  b.append(acts); dlg.showModal();
-}
-dlg.addEventListener("click", e => { if (e.target === dlg) dlg.close(); });
-PROJECTS.forEach((p, i) => {
-  const acts = el("div", { class: "card-actions" }, [el("button", { class: "btn small primary", text: "Detail", onclick: () => openDetail(p) })]);
-  const page = safeUrl(p.itch.pageUrl);
-  acts.append(el("a", { class: "btn small", text: "Kunjungi game", href: page || "#play", ...(page ? { target: "_blank", rel: "noopener noreferrer" } : {}), ...(page ? {} : { "aria-disabled": "true" }) }));
-  $("#cards").append(el("article", { class: "card" }, [mediaNode(p), el("div", { class: "card-body" }, [
-    el("h3", { text: p.title }), el("p", { text: p.summary }),
-    el("dl", { class: "meta" }, [el("dt", { text: "Genre" }), el("dd", { text: p.genre }), el("dt", { text: "Platform" }), el("dd", { text: p.platform }), el("dt", { text: "Teknologi" }), el("dd", { text: p.tech.join(", ") }), el("dt", { text: "Peran" }), el("dd", { text: p.role })]), acts])]));
-});
+    /* ---- kartu proyek ---- */
+    function mediaNode(p) {
+      const m = p.media || {}, box = el("div", { class: "media" }), u = safeUrl(m.src || "");
+      if (u && m.type === "video") box.append(el("video", { src: u, muted: "", loop: "", playsinline: "", preload: "none", controls: "", "aria-label": m.alt || p.title }));
+      else if (u) box.append(el("img", { src: u, alt: m.alt || p.title, loading: "lazy", decoding: "async", width: 640, height: 360 }));
+      else { box.textContent = p.title.charAt(0); box.setAttribute("role", "img"); box.setAttribute("aria-label", "Placeholder preview " + p.title); }
+      return box;
+    }
+    const dlg = $("#dlg");
+    function openDetail(p) {
+      const b = $("#dlg-body"); b.textContent = "";
+      b.append(el("div", { class: "dlg-head" }, [el("h3", { id: "dlg-title", text: p.title }), el("button", { class: "btn small", text: "Tutup", onclick: () => dlg.close() })]));
+      b.append(mediaNode(p), el("p", { text: p.summary }));
+      b.append(el("dl", { class: "meta" }, [el("dt", { text: "Peran" }), el("dd", { text: p.role }), el("dt", { text: "Genre" }), el("dd", { text: p.genre }), el("dt", { text: "Platform" }), el("dd", { text: p.platform }), el("dt", { text: "Teknologi" }), el("dd", { text: p.tech.join(", ") })]));
+      b.append(el("div", {}, [el("h4", { text: "Kontribusi & tanggung jawab" }), el("ul", {}, p.contributions.map(c => el("li", { text: c })))]));
+      const acts = el("div", { class: "card-actions" });
+      const i = PROJECTS.indexOf(p);
+      acts.append(el("button", { class: "btn small primary", text: "Mainkan di sini", onclick: () => { dlg.close(); selectGame(i); $("#play").scrollIntoView(); } }));
+      if (safeUrl(p.itch.pageUrl)) acts.append(el("a", { class: "btn small", href: p.itch.pageUrl, target: "_blank", rel: "noopener noreferrer", text: "Halaman itch.io" }));
+      b.append(acts); dlg.showModal();
+    }
+    dlg.addEventListener("click", e => { if (e.target === dlg) dlg.close(); });
+    PROJECTS.forEach((p, i) => {
+      const acts = el("div", { class: "card-actions" }, [el("button", { class: "btn small primary", text: "Detail", onclick: () => openDetail(p) })]);
+      const page = safeUrl(p.itch.pageUrl);
+      acts.append(el("a", { class: "btn small", text: "Kunjungi game", href: page || "#play", ...(page ? { target: "_blank", rel: "noopener noreferrer" } : {}), ...(page ? {} : { "aria-disabled": "true" }) }));
+      $("#cards").append(el("article", { class: "card" }, [mediaNode(p), el("div", { class: "card-body" }, [
+        el("h3", { text: p.title }), el("p", { text: p.summary }),
+        el("dl", { class: "meta" }, [el("dt", { text: "Genre" }), el("dd", { text: p.genre }), el("dt", { text: "Platform" }), el("dd", { text: p.platform }), el("dt", { text: "Teknologi" }), el("dd", { text: p.tech.join(", ") }), el("dt", { text: "Peran" }), el("dd", { text: p.role })]), acts])]));
+    });
 
-/* ---- itch.io player ---- */
-let cur = -1, timer;
-function selectGame(i) {
-  cur = i; const p = PROJECTS[i], it = p.itch, emb = srcOf(it.embedSrc), wid = srcOf(it.widgetSrc), page = safeUrl(it.pageUrl);
-  document.querySelectorAll(".pick").forEach((b, k) => b.setAttribute("aria-selected", k === i));
-  const frame = $("#frame"); frame.textContent = ""; clearTimeout(timer);
-  frame.style.aspectRatio = it.ratio || "16/9";
-  const note = $("#note"), fs = $("#fs"), link = $("#itchlink");
-  if (page) { link.href = page; link.removeAttribute("aria-disabled"); link.target = "_blank"; link.rel = "noopener noreferrer"; } else { link.removeAttribute("href"); link.setAttribute("aria-disabled", "true"); }
-  if (emb) {
-    const f = el("iframe", { src: emb, title: "Main " + p.title, loading: "lazy", allow: "fullscreen; autoplay; gamepad; clipboard-write", allowfullscreen: "", scrolling: "no" });
-    f.addEventListener("load", () => { clearTimeout(timer); note.textContent = "Tidak tampil? Gunakan tombol “Buka di itch.io”."; });
-    frame.append(f); fs.disabled = false; fs.onclick = () => (f.requestFullscreen || f.webkitRequestFullscreen || (() => {})).call(f);
-    note.textContent = "Memuat game…";
-    timer = setTimeout(() => { note.textContent = "Embed lambat atau diblokir. Mainkan lewat tombol “Buka di itch.io”."; }, 9000);
-  } else {
-    fs.disabled = true; fs.onclick = null;
-    frame.append(el("div", { class: "empty" }, [el("p", {}, ["Belum ada embed untuk game ini.", el("br"), "Isi ", el("code", { text: "itch.embedSrc" }), " di bagian data."])]));
-    note.textContent = page ? "Embed tidak tersedia. Mainkan di itch.io." : "Isi itch.pageUrl agar tombol fallback aktif.";
-  }
-  const w = $("#widget"); w.textContent = "";
-  if (wid) w.append(el("iframe", { src: wid, title: "Widget itch.io " + p.title, loading: "lazy", width: 552, height: 167 }));
-}
-PROJECTS.forEach((p, i) => $("#picker").append(el("button", { class: "pick", role: "tab", text: p.title, onclick: () => selectGame(i) })));
-selectGame(0);
+    /* ---- itch.io player ---- */
+    let cur = -1, timer;
+    /* Overlay Play: hanya gambar preview yang dimuat. Iframe itch.io baru dibuat setelah klik. */
+    function posterNode(p, onPlay) {
+      const pv = safeUrl((p.media && p.media.src) || p.itch.preview || ""), isVid = /\.(mp4|webm)(\?|$)/i.test(pv);
+      const b = el("button", { class: "poster", type: "button", "aria-label": "Mainkan " + p.title });
+      if (pv && isVid) b.append(el("video", { src: pv + "#t=0.1", muted: "", playsinline: "", preload: "metadata", "aria-hidden": "true" }));
+      else if (pv) b.append(el("img", { src: pv, alt: "", loading: "lazy", decoding: "async", width: 640, height: 360 }));
+      else b.append(el("span", { class: "poster-ph", text: "Preview belum diatur. Isi media.src.", "aria-hidden": "true" }));
+      b.append(el("span", { class: "poster-title", text: p.title }));
+      const pb = el("span", { class: "play-btn", "aria-hidden": "true" });
+      pb.innerHTML = '<svg viewBox="0 0 24 24" width="26" height="26"><path fill="currentColor" d="M7 4v16l13-8z"/></svg><b>Play</b>';
+      b.append(pb);
+      b.addEventListener("click", () => { onPlay(); const f = $("#frame iframe"); if (f) f.focus(); });
+      return b;
+    }
+    function selectGame(i) {
+      cur = i; const p = PROJECTS[i], it = p.itch, emb = srcOf(it.embedSrc), wid = srcOf(it.widgetSrc), page = safeUrl(it.pageUrl);
+      document.querySelectorAll(".pick").forEach((b, k) => b.setAttribute("aria-selected", k === i));
+      const frame = $("#frame"); frame.textContent = ""; clearTimeout(timer);
+      frame.style.aspectRatio = it.ratio || "16/9";
+      const note = $("#note"), fs = $("#fs"), link = $("#itchlink");
+      if (page) { link.href = page; link.removeAttribute("aria-disabled"); link.target = "_blank"; link.rel = "noopener noreferrer"; } else { link.removeAttribute("href"); link.setAttribute("aria-disabled", "true"); }
+      if (emb) {
+        fs.disabled = true; fs.onclick = null;
+        note.textContent = "Klik Play untuk memuat game.";
+        frame.append(posterNode(p, () => {
+          frame.textContent = "";
+          const f = el("iframe", { src: emb, title: "Main " + p.title, loading: "lazy", allow: "fullscreen; autoplay; gamepad; clipboard-write", allowfullscreen: "", scrolling: "no" });
+          f.addEventListener("load", () => { clearTimeout(timer); note.textContent = "Tidak tampil? Gunakan tombol “Buka di itch.io”."; });
+          frame.append(f); fs.disabled = false; fs.onclick = () => (f.requestFullscreen || f.webkitRequestFullscreen || (() => { })).call(f);
+          note.textContent = "Memuat game…";
+          timer = setTimeout(() => { note.textContent = "Embed lambat atau diblokir. Mainkan lewat tombol “Buka di itch.io”."; }, 9000);
+        }));
+      } else {
+        fs.disabled = true; fs.onclick = null;
+        frame.append(el("div", { class: "empty" }, [el("p", {}, ["Belum ada embed untuk game ini.", el("br"), "Isi ", el("code", { text: "itch.embedSrc" }), " di bagian data."])]));
+        note.textContent = page ? "Embed tidak tersedia. Mainkan di itch.io." : "Isi itch.pageUrl agar tombol fallback aktif.";
+      }
+      const w = $("#widget"); w.textContent = "";
+      function loadWidget() { if (wid && !w.firstChild) w.append(el("iframe", { src: wid, title: "Widget itch.io " + p.title, loading: "lazy", width: 552, height: 167 })); }
+      /* Widget selalu tampil, tidak bergantung pada iframe game */
+      if (wid) loadWidget(); else w.append(el("p", { text: "Widget belum diatur. Isi itch.widgetSrc di bagian data.", style: "margin:0;font-size:.85rem;color:var(--muted)" }));
+    }
+    PROJECTS.forEach((p, i) => $("#picker").append(el("button", { class: "pick", role: "tab", text: p.title, onclick: () => selectGame(i) })));
+    selectGame(0);
 
-/* ---- navigasi ---- */
-const burger = $("#burger"), links = $("#links");
-burger.onclick = () => { const o = links.classList.toggle("open"); burger.setAttribute("aria-expanded", o); };
-links.querySelectorAll("a").forEach(a => a.addEventListener("click", () => { links.classList.remove("open"); burger.setAttribute("aria-expanded", "false"); }));
-const navA = [...links.querySelectorAll("a")];
-new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) navA.forEach(a => a.classList.toggle("active", a.getAttribute("href") === "#" + e.target.id)); }), { rootMargin: "-45% 0px -50% 0px" })
-  .observe && ["about", "projects", "play", "contact"].forEach(id => { /* observe set below */ });
-const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) navA.forEach(a => a.classList.toggle("active", a.getAttribute("href") === "#" + e.target.id)); }), { rootMargin: "-45% 0px -50% 0px" });
-["about", "projects", "play", "contact"].forEach(id => io.observe(document.getElementById(id)));
-$("#theme").onclick = () => { const r = document.documentElement, dark = r.dataset.theme ? r.dataset.theme === "dark" : matchMedia("(prefers-color-scheme:dark)").matches; r.dataset.theme = dark ? "light" : "dark"; };
+    /* ---- navigasi ---- */
+    const burger = $("#burger"), links = $("#links");
+    burger.onclick = () => { const o = links.classList.toggle("open"); burger.setAttribute("aria-expanded", o); };
+    links.querySelectorAll("a").forEach(a => a.addEventListener("click", () => { links.classList.remove("open"); burger.setAttribute("aria-expanded", "false"); }));
+    const navA = [...links.querySelectorAll("a")];
+    new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) navA.forEach(a => a.classList.toggle("active", a.getAttribute("href") === "#" + e.target.id)); }), { rootMargin: "-45% 0px -50% 0px" })
+      .observe && ["about", "projects", "play", "contact"].forEach(id => { /* observe set below */ });
+    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) navA.forEach(a => a.classList.toggle("active", a.getAttribute("href") === "#" + e.target.id)); }), { rootMargin: "-45% 0px -50% 0px" });
+    ["about", "projects", "play", "contact"].forEach(id => io.observe(document.getElementById(id)));
+    $("#theme").onclick = () => { const r = document.documentElement, dark = r.dataset.theme ? r.dataset.theme === "dark" : matchMedia("(prefers-color-scheme:dark)").matches; r.dataset.theme = dark ? "light" : "dark"; };
 
-/* ---- demo A* di hero (klik kotak = dinding) ---- */
-(() => {
-  const cv = $("#grid"), cx = cv.getContext("2d"), C = 16, R = 9, S = 40, start = [1, 4], goal = [14, 4];
-  let walls = new Set(["7,2", "7,3", "7,4", "7,5", "8,5", "9,5"]), path = [], tok = -1, anim;
-  const key = (x, y) => x + "," + y, css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
-  function astar() {
-    const h = (x, y) => Math.abs(x - goal[0]) + Math.abs(y - goal[1]), open = [[...start, 0, h(...start)]], came = {}, g = { [key(...start)]: 0 }, done = new Set();
-    while (open.length) {
-      open.sort((a, b) => a[3] - b[3]); const [x, y, gc] = open.shift(), k = key(x, y);
-      if (done.has(k)) continue; done.add(k);
-      if (x === goal[0] && y === goal[1]) { const p = [[x, y]]; let c = k; while (came[c]) { c = came[c]; p.unshift(c.split(",").map(Number)); } return p; }
-      [[1, 0], [-1, 0], [0, 1], [0, -1]].forEach(([dx, dy]) => {
-        const nx = x + dx, ny = y + dy, nk = key(nx, ny);
-        if (nx < 0 || ny < 0 || nx >= C || ny >= R || walls.has(nk)) return;
-        if (g[nk] === undefined || gc + 1 < g[nk]) { g[nk] = gc + 1; came[nk] = k; open.push([nx, ny, gc + 1, gc + 1 + h(nx, ny)]); }
+    /* ---- demo A* di hero (klik kotak = dinding) ---- */
+    (() => {
+      const cv = $("#grid"), cx = cv.getContext("2d"), C = 16, R = 9, S = 40, start = [1, 4], goal = [14, 4];
+      let walls = new Set(["7,2", "7,3", "7,4", "7,5", "8,5", "9,5"]), path = [], tok = -1, anim;
+      const key = (x, y) => x + "," + y, css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+      function astar() {
+        const h = (x, y) => Math.abs(x - goal[0]) + Math.abs(y - goal[1]), open = [[...start, 0, h(...start)]], came = {}, g = { [key(...start)]: 0 }, done = new Set();
+        while (open.length) {
+          open.sort((a, b) => a[3] - b[3]); const [x, y, gc] = open.shift(), k = key(x, y);
+          if (done.has(k)) continue; done.add(k);
+          if (x === goal[0] && y === goal[1]) { const p = [[x, y]]; let c = k; while (came[c]) { c = came[c]; p.unshift(c.split(",").map(Number)); } return p; }
+          [[1, 0], [-1, 0], [0, 1], [0, -1]].forEach(([dx, dy]) => {
+            const nx = x + dx, ny = y + dy, nk = key(nx, ny);
+            if (nx < 0 || ny < 0 || nx >= C || ny >= R || walls.has(nk)) return;
+            if (g[nk] === undefined || gc + 1 < g[nk]) { g[nk] = gc + 1; came[nk] = k; open.push([nx, ny, gc + 1, gc + 1 + h(nx, ny)]); }
+          });
+        } return [];
+      }
+      function draw() {
+        cx.clearRect(0, 0, cv.width, cv.height);
+        for (let y = 0; y < R; y++) for (let x = 0; x < C; x++) { cx.fillStyle = walls.has(key(x, y)) ? css("--wall") : css("--cell"); cx.fillRect(x * S + 1, y * S + 1, S - 2, S - 2); }
+        cx.fillStyle = css("--hi"); path.forEach(([x, y]) => cx.fillRect(x * S + 14, y * S + 14, 12, 12));
+        cx.fillStyle = css("--accent"); cx.fillRect(start[0] * S + 4, start[1] * S + 4, S - 8, S - 8);
+        cx.strokeStyle = css("--ink"); cx.lineWidth = 3; cx.strokeRect(goal[0] * S + 5, goal[1] * S + 5, S - 10, S - 10);
+        if (tok >= 0 && path[tok]) { cx.fillStyle = css("--ink"); cx.fillRect(path[tok][0] * S + 9, path[tok][1] * S + 9, S - 18, S - 18); }
+      }
+      function solve() { path = astar(); $("#pathinfo").textContent = path.length ? "Jalur ditemukan: " + (path.length - 1) + " langkah." : "Tidak ada jalur. Hapus beberapa dinding."; draw(); }
+      cv.addEventListener("pointerdown", e => {
+        const r = cv.getBoundingClientRect(), x = Math.floor((e.clientX - r.left) / r.width * C), y = Math.floor((e.clientY - r.top) / r.height * R), k = key(x, y);
+        if ((x === start[0] && y === start[1]) || (x === goal[0] && y === goal[1])) return;
+        walls.has(k) ? walls.delete(k) : walls.add(k); clearInterval(anim); tok = -1; solve();
       });
-    } return [];
-  }
-  function draw() {
-    cx.clearRect(0, 0, cv.width, cv.height);
-    for (let y = 0; y < R; y++) for (let x = 0; x < C; x++) { cx.fillStyle = walls.has(key(x, y)) ? css("--wall") : css("--cell"); cx.fillRect(x * S + 1, y * S + 1, S - 2, S - 2); }
-    cx.fillStyle = css("--hi"); path.forEach(([x, y]) => cx.fillRect(x * S + 14, y * S + 14, 12, 12));
-    cx.fillStyle = css("--accent"); cx.fillRect(start[0] * S + 4, start[1] * S + 4, S - 8, S - 8);
-    cx.strokeStyle = css("--ink"); cx.lineWidth = 3; cx.strokeRect(goal[0] * S + 5, goal[1] * S + 5, S - 10, S - 10);
-    if (tok >= 0 && path[tok]) { cx.fillStyle = css("--ink"); cx.fillRect(path[tok][0] * S + 9, path[tok][1] * S + 9, S - 18, S - 18); }
-  }
-  function solve() { path = astar(); $("#pathinfo").textContent = path.length ? "Jalur ditemukan: " + (path.length - 1) + " langkah." : "Tidak ada jalur. Hapus beberapa dinding."; draw(); }
-  cv.addEventListener("pointerdown", e => {
-    const r = cv.getBoundingClientRect(), x = Math.floor((e.clientX - r.left) / r.width * C), y = Math.floor((e.clientY - r.top) / r.height * R), k = key(x, y);
-    if ((x === start[0] && y === start[1]) || (x === goal[0] && y === goal[1])) return;
-    walls.has(k) ? walls.delete(k) : walls.add(k); clearInterval(anim); tok = -1; solve();
-  });
-  $("#run").onclick = () => { clearInterval(anim); if (!path.length) return; tok = 0; draw(); anim = setInterval(() => { tok++; if (tok >= path.length) { clearInterval(anim); tok = -1; } draw(); }, matchMedia("(prefers-reduced-motion:reduce)").matches ? 0 : 140); };
-  $("#reset").onclick = () => { clearInterval(anim); tok = -1; walls = new Set(["7,2", "7,3", "7,4", "7,5", "8,5", "9,5"]); solve(); };
-  matchMedia("(prefers-color-scheme:dark)").addEventListener("change", draw); $("#theme").addEventListener("click", draw);
-  solve();
-})();
-</script>
+      $("#run").onclick = () => { clearInterval(anim); if (!path.length) return; tok = 0; draw(); anim = setInterval(() => { tok++; if (tok >= path.length) { clearInterval(anim); tok = -1; } draw(); }, matchMedia("(prefers-reduced-motion:reduce)").matches ? 0 : 140); };
+      $("#reset").onclick = () => { clearInterval(anim); tok = -1; walls = new Set(["7,2", "7,3", "7,4", "7,5", "8,5", "9,5"]); solve(); };
+      matchMedia("(prefers-color-scheme:dark)").addEventListener("change", draw); $("#theme").addEventListener("click", draw);
+      solve();
+    })();
+  </script>
 </body>
+
 </html>
