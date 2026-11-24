@@ -508,6 +508,144 @@
       object-fit: cover
     }
 
+    /* carousel */
+    .carousel {
+      display: block;
+      position: relative;
+      font: 400 1rem var(--body);
+      color: var(--ink)
+    }
+
+    .track {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      transition: transform .45s ease;
+      touch-action: pan-y
+    }
+
+    .slide {
+      flex: 0 0 100%;
+      width: 100%;
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+      background: var(--cell)
+    }
+
+    .slide img,
+    .slide video,
+    .slide iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border: 0
+    }
+
+    .slide iframe {
+      pointer-events: none
+    }
+
+    .slide .ph {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      color: var(--muted);
+      font: 600 .9rem var(--body)
+    }
+
+    .badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      z-index: 2;
+      max-width: calc(100% - 20px);
+      padding: 3px 9px;
+      background: var(--surface);
+      border: 2px solid var(--ink);
+      border-radius: 3px;
+      font: 600 .75rem var(--body);
+      color: var(--ink);
+      pointer-events: none
+    }
+
+    .slide.on .badge {
+      display: none
+    }
+
+    .car-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 3;
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      padding: 0;
+      background: var(--surface);
+      color: var(--ink);
+      border: 2px solid var(--ink);
+      border-radius: 4px;
+      cursor: pointer;
+      font: 700 1.3rem/1 var(--body);
+      transition: background .12s, transform .12s
+    }
+
+    .car-btn.prev {
+      left: 10px
+    }
+
+    .car-btn.next {
+      right: 10px
+    }
+
+    .car-btn:hover {
+      background: var(--accent);
+      color: var(--accent-ink)
+    }
+
+    .car-btn:active {
+      transform: translateY(-50%) scale(.92)
+    }
+
+    .dots {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 10px;
+      z-index: 3;
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      pointer-events: none
+    }
+
+    .dot {
+      position: relative;
+      width: 12px;
+      height: 12px;
+      padding: 0;
+      border: 2px solid var(--ink);
+      background: var(--surface);
+      border-radius: 2px;
+      cursor: pointer;
+      pointer-events: auto
+    }
+
+    .dot::before {
+      content: "";
+      position: absolute;
+      inset: -8px
+    }
+
+    .dot[aria-current="true"] {
+      background: var(--accent)
+    }
+
     .card-body {
       padding: 20px;
       display: flex;
@@ -610,6 +748,28 @@
       border: 0
     }
 
+    .frame:fullscreen {
+      width: 100%;
+      height: 100%;
+      aspect-ratio: auto !important;
+      border: 0;
+      border-radius: 0;
+      background: var(--ink)
+    }
+
+    .frame:-webkit-full-screen {
+      width: 100%;
+      height: 100%;
+      aspect-ratio: auto !important;
+      border: 0;
+      border-radius: 0;
+      background: var(--ink)
+    }
+
+    .frame:fullscreen::backdrop {
+      background: var(--ink)
+    }
+
     .empty {
       position: absolute;
       inset: 0;
@@ -672,6 +832,10 @@
       z-index: 2;
       font: 500 .85rem var(--body);
       color: var(--ink)
+    }
+
+    .poster.noimg::after {
+      background: transparent
     }
 
     .poster-title {
@@ -956,33 +1120,43 @@
        itch.widgetSrc: URL atau kode <iframe> widget dari itch.io (Edit game > Widget)
        itch.pageUrl  : halaman game di itch.io (dipakai tombol fallback)
        itch.ratio    : rasio area game, mis. "16/9", "4/3"
-       itch.preview  : (opsional) gambar/GIF/video cadangan overlay Play bila media.src kosong.
-                       Thumbnail utama = media.src. Jika keduanya kosong tampil teks placeholder.
-       media.type    : "image" | "video" (mp4/webm) | "" ; media.src: gif/screenshot/video */
+       itch.preview  : sudah tidak dipakai. Thumbnail Play memakai playThumbnail (lihat di bawah).
+                       Field itch.preview diabaikan.
+       media.type    : tidak dipakai lagi (media kini berupa ARRAY, lihat di bawah).
+       media: [...]  satu objek per slide carousel, urut sesuai array. Field type menentukan jenisnya:
+                       { type: "image",   src: "shot1.png", alt: "..." }
+                       { type: "gif",     src: "demo.gif",  alt: "..." }
+                       { type: "video",   src: "clip.mp4" (atau .webm), poster: "thumb.jpg" (opsional), alt: "..." }
+                       { type: "youtube", src: "https://youtu.be/ID" (atau URL watch/embed, atau ID 11 karakter), poster: (opsional), alt: "..." }
+                       Video dan YouTube diputar saat kursor berada di area media (layar sentuh: ketuk).
+       playThumbnail : gambar/GIF khusus untuk overlay Play. Tidak diambil dari media. Kosong = placeholder bersih. */
     const PROJECTS = [
       {
-        id: "game-2", title: "Dihuni Rob", summary: "Game survival City Building dimana pemain berperan sebagai kepala desa sementara di desa yang terkena bencana Banjir Rob. Pemain bertugas untuk mengembalikan harapan masyaakat yang hilang",
+        id: "game-1", title: "Dihuni Rob", summary: "Game survival City Building dimana pemain berperan sebagai kepala desa sementara di desa yang terkena bencana Banjir Rob. Pemain bertugas untuk mengembalikan harapan masyaakat yang hilang",
         genre: "City Building, Survival, Puzzle", platform: "Windows", tech: ["Unity", "C#"],
         role: "Game Programmer",
         contributions: ["Mengimplementasikan UI main menu, pause, dan gameplay, termasuk animasi idle pada main menu", "Mengembangkan mekanisme pembangunan berbasis grid isometrik beserta panel informasi bangunan", "Mengimplementasikan sistem dialog dan cutscene prolog untuk mendukung penyampaian cerita dalam permainan", "Mengembangkan sistem quest atau misi beserta notifikasi untuk memberikan informasi progres kepada pemain", "Mengimplementasikan tutorial berbasis minigame untuk memperkenalkan mekanisme permainan kepada pemain"],
-        media: { type: "", src: "", alt: "Cuplikan gameplay Nama Game 2" },
+        media: [ {type: "youtube", src: "https://youtu.be/j8GQ3ZZRrMo?si=OOdwUM1eWkFJjrqC", poster:"/asset/asetDihuniRob(2).png", alt: "video dihuni rob"}, { type: "image", src: "/asset/asetDihuniRob(2).png", alt: "Level 1" }, { type: "image", src: "/asset/asetDihuniRob(1).png", alt: "Level 1" },{ type: "image", src: "/asset/asetDihuniRob(3).png", alt: "Level 1" }, { type: "image", src: "/asset/asetDihuniRob(4).png", alt: "Level 1" },{ type: "image", src: "/asset/asetDihuniRob(5).png", alt: "Level 1" },{ type: "image", src: "/asset/asetDihuniRob(6).png", alt: "Level 1" },{ type: "image", src: "/asset/asetDihuniRob(7).png", alt: "Level 1" },{ type: "image", src: "/asset/asetDihuniRob(8).png", alt: "Level 1" },/* contoh: { type: "image", src: "shot1.png", alt: "Level 1" }, { type: "youtube", src: "https://youtu.be/XXXXXXXXXXX" } */],
+        playThumbnail: "/asset/asetDihuniRob(2).png",
         itch: { pageUrl: "https://senphi23.itch.io/dihunirob-tanah-air-yang-sulit-ditinggali", embedSrc: "https://itch.io/embed-upload/20723349?color=0f172a", widgetSrc: "https://itch.io/embed/5369831", ratio: "16/9" }
       },
       {
-        id: "game-1", title: "The Rat", summary: "Pacman, namun versi kondisi politik indonesia, tikus yang mengumpulkan koin dan dikejar oleh warga. Maionkan dengan WASD",
+        id: "game-2", title: "The Rat", summary: "Pacman, namun versi kondisi politik indonesia, tikus yang mengumpulkan koin dan dikejar oleh warga. Maionkan dengan WASD",
         genre: "puzzle", platform: "Web browser, Windows", tech: ["Godot", "GDscript"],
         role: "Game Programmer",
         contributions: ["Membuat player movement", "membuat sistem point dan nyawa", "membuat AI untuk para hantunya"],
-        media: { type: "", src: "", alt: "Cuplikan gameplay Nama Game 1" },
+        media: [{ type: "image", src: "/asset/The-Rat.png", alt: "gambar the Rat" }, { type: "image", src: "/asset/The-Rat(2).png", alt: "gambar the Rat" },{ type: "image", src: "/asset/The-Rat(3).png", alt: "gambar the Rat" }, ],
+        playThumbnail: "/asset/The-Rat.png",
         itch: { pageUrl: "https://dyrolite.itch.io/the-rat", embedSrc: "https://itch.io/embed-upload/14964992?color=333333", widgetSrc: "https://itch.io/embed/3885678", ratio: "16/9" }
       },
       {
-        id: "game-3", title: "Nama Game 3", summary: "TODO: deskripsi singkat game.",
-        genre: "TODO", platform: "PC", tech: ["Unreal Engine", "C++"],
-        role: "TODO: peran Anda",
-        contributions: ["TODO: tanggung jawab 1", "TODO: tanggung jawab 2"],
-        media: { type: "", src: "", alt: "Cuplikan gameplay Nama Game 3" },
-        itch: { pageUrl: "", embedSrc: "", widgetSrc: "", ratio: "16/9" }
+        id: "game-3", title: "Bribe or Broke", summary: "Game simulasi paper please, namun sang karakter menjadi petugas perizinan usaha. Ia bekerja untuk melunasi hutang. Bisakah dia melakukan pekerjaannya secara jujur",
+        genre: "Simulasi", platform: "PC", tech: ["Unity", "C#"],
+        role: "Game Programmer",
+        contributions: ["Mengembangkan mekanisme pemeriksaan dokumen sebagai salah satu mekanisme utama gameplay", "Mengimplementasikan sistem pengelolaan hutang dan sistem level dalam permainan.", "Mengembangkan sistem kemunculan klien secara acak, termasuk penentuan atribut setiap klien.", "Mengimplementasikan antarmuka main menu, gameplay, dan pause menu serta fitur tutorial permainan.", "Mengimplementasikan logika kondisi akhir permainan beserta elemen visual ending"],
+        media: [{ type: "image", src: "/asset/BoB(1).png", alt: "gambar Bribe or Broke" }, { type: "image", src: "/asset/BoB(2).png", alt: "gambar Bribe or Broke" }, { type: "image", src: "/asset/BoB(3).png", alt: "gambar Bribe or Broke" }, { type: "image", src: "/asset/BoB(4).png", alt: "gambar Bribe or Broke" }, { type: "image", src: "/asset/BoB(5).png", alt: "gambar Bribe or Broke" }, { type: "image", src: "/asset/BoB(6).png", alt: "gambar Bribe or Broke" }],
+        playThumbnail: "",
+        itch: { pageUrl: "https://dyrolite.itch.io/bribe-or-broke", embedSrc: "", widgetSrc: "https://itch.io/embed/4407165", ratio: "16/9" }
       }
     ];
 
@@ -1033,12 +1207,90 @@
     });
 
     /* ---- kartu proyek ---- */
-    function mediaNode(p) {
-      const m = p.media || {}, box = el("div", { class: "media" }), u = safeUrl(m.src || "");
-      if (u && m.type === "video") box.append(el("video", { src: u, muted: "", loop: "", playsinline: "", preload: "none", controls: "", "aria-label": m.alt || p.title }));
-      else if (u) box.append(el("img", { src: u, alt: m.alt || p.title, loading: "lazy", decoding: "async", width: 640, height: 360 }));
-      else { box.textContent = p.title.charAt(0); box.setAttribute("role", "img"); box.setAttribute("aria-label", "Placeholder preview " + p.title); }
-      return box;
+    const REDUCED = matchMedia("(prefers-reduced-motion:reduce)").matches, CAN_HOVER = matchMedia("(hover:hover)").matches;
+    const ytId = s => { s = String(s || ""); const m = s.match(/(?:youtu\.be\/|[?&]v=|embed\/|shorts\/)([\w-]{11})/) || s.match(/^([\w-]{11})$/); return m ? m[1] : ""; };
+    /* satu slide carousel: image | gif | video | youtube */
+    function makeSlide(m, p) {
+      const t = String(m.type || "").toLowerCase(), alt = m.alt || p.title, node = el("div", { class: "slide" }), poster = safeUrl(m.poster || "");
+      const s = { node, playable: false, load() { }, play() { }, stop() { } };
+      const hint = () => el("span", { class: "badge", "aria-hidden": "true", text: "▶ " + (CAN_HOVER ? "Arahkan kursor untuk memutar" : "Ketuk untuk memutar") });
+      if (t === "youtube") {
+        const id = ytId(m.src);
+        if (!id) { node.append(el("div", { class: "ph", text: "URL YouTube tidak valid" })); return s; }
+        const img = el("img", { src: poster || "https://i.ytimg.com/vi/" + id + "/hqdefault.jpg", alt, loading: "lazy", decoding: "async" });
+        let f = null;
+        img.addEventListener("error", () => img.remove());
+        node.append(el("div", { class: "ph", text: "YouTube" }), img, hint());
+        s.playable = true;
+        s.play = () => { if (f) return; f = el("iframe", { src: "https://www.youtube-nocookie.com/embed/" + id + "?autoplay=1&mute=1&loop=1&playlist=" + id + "&controls=0&playsinline=1&rel=0&modestbranding=1", title: alt, allow: "autoplay; encrypted-media; picture-in-picture", referrerpolicy: "strict-origin-when-cross-origin" }); node.append(f); node.classList.add("on"); };
+        s.stop = () => { if (f) { f.remove(); f = null; } node.classList.remove("on"); };
+      } else if (t === "video") {
+        const u = safeUrl(m.src || ""), v = el("video", { loop: "", playsinline: "", preload: "none", "aria-label": alt });
+        if (poster) v.poster = poster;
+        v.muted = true; if (u) v.src = u;
+        node.append(v, hint()); s.playable = true;
+        s.load = () => { if (!v.dataset.l) { v.dataset.l = "1"; v.preload = "metadata"; v.load(); } };
+        s.play = () => { const r = v.play(); if (r && r.catch) r.catch(() => { }); node.classList.add("on"); };
+        s.stop = () => { v.pause(); node.classList.remove("on"); };
+      } else node.append(el("img", { src: safeUrl(m.src || ""), alt, loading: "lazy", decoding: "async", width: 640, height: 360 }));
+      return s;
+    }
+    /* carousel: panah, titik, geser sentuh, auto-slide 4,5 dtk (jeda saat hover/fokus, reset setelah interaksi manual) */
+    function carousel(p, opts) {
+      const items = (Array.isArray(p.media) ? p.media : []).filter(m => m && m.src);
+      if (!items.length) { const b = el("div", { class: "media", role: "img", "aria-label": "Placeholder media " + p.title }); b.textContent = p.title.charAt(0); return { node: b, start() { }, stop() { }, hoverIn() { }, hoverOut() { }, destroy() { } }; }
+      const root = el("div", { class: "media carousel", role: "region", "aria-roledescription": "carousel", "aria-label": "Media " + p.title }), track = el("div", { class: "track" });
+      const slides = items.map(m => makeSlide(m, p)), n = slides.length, auto = opts.auto && n > 1 && !REDUCED, dots = [];
+      let i = 0, timer = 0, running = false, hover = false, tap = false, touch = false, focused = false, downX = null, swiped = false, suppress = false, navved = false;
+      slides.forEach(s => track.append(s.node)); root.append(track);
+      const held = () => hover || tap || focused;
+      const sync = () => {
+        if (tap && !slides[i].playable) tap = false;
+        track.style.transform = "translateX(" + (-i * 100) + "%)";
+        slides.forEach((s, k) => { s.node.setAttribute("aria-hidden", k !== i); s.stop(); });
+        dots.forEach((d, k) => d.setAttribute("aria-current", k === i));
+        if (tap || (hover && !suppress)) slides[i].play();
+      };
+      const go = k => { i = (k + n) % n; sync(); };
+      const arm = () => { clearInterval(timer); if (auto && running && !held()) timer = setInterval(() => go(i + 1), 4500); };
+      const manual = k => { suppress = true; navved = true; tap = false; go(k); arm(); }; /* navigasi manual: hentikan video, jangan putar otomatis lagi */
+      const jump = k => { track.style.transition = "none"; go(k); void track.offsetWidth; track.style.transition = ""; };
+      if (n > 1) {
+        [["prev", "‹", "Sebelumnya", -1], ["next", "›", "Berikutnya", 1]].forEach(([c, t, l, d]) => root.append(el("button", { class: "car-btn " + c, type: "button", "aria-label": l, text: t, onclick: e => { e.stopPropagation(); manual(i + d); } })));
+        const wrap = el("div", { class: "dots" });
+        slides.forEach((s, k) => { const d = el("button", { class: "dot", type: "button", "aria-label": "Slide " + (k + 1), onclick: e => { e.stopPropagation(); manual(k); } }); dots.push(d); wrap.append(d); });
+        root.append(wrap);
+      }
+      /* hover ditangani kartu induk lewat hoverIn/hoverOut */
+
+      root.addEventListener("focusin", e => { focused = e.target.matches(":focus-visible"); if (focused) clearInterval(timer); });
+      root.addEventListener("focusout", () => { focused = false; arm(); });
+      track.addEventListener("pointerdown", e => { touch = e.pointerType !== "mouse"; downX = touch ? e.clientX : null; swiped = false; });
+      track.addEventListener("pointerup", e => { if (downX === null) return; const dx = e.clientX - downX; downX = null; if (Math.abs(dx) > 40 && n > 1) { swiped = true; manual(i + (dx < 0 ? 1 : -1)); } });
+      track.addEventListener("click", () => {
+        if (swiped) { swiped = false; return; }
+        if (!slides[i].playable) return;
+        if (!touch) { if (suppress && hover) { suppress = false; clearInterval(timer); slides[i].play(); } return; }
+        if (tap) { tap = false; slides[i].stop(); arm(); } else { tap = true; clearInterval(timer); slides[i].play(); }
+      });
+      return {
+        node: root,
+        start() { running = true; if (i) jump(0); slides.forEach(s => s.load()); arm(); },
+        stop() { running = false; clearInterval(timer); hover = false; tap = false; suppress = false; navved = false; jump(0); },
+        hoverIn() {
+          hover = true; suppress = false; clearInterval(timer);
+          if (!slides[i].playable && !navved) { const k = slides.findIndex(s => s.playable); if (k >= 0) { go(k); return; } }
+          slides[i].play();
+        },
+        hoverOut() { hover = false; suppress = false; slides[i].stop(); arm(); },
+        destroy() { running = false; clearInterval(timer); slides.forEach(s => s.stop()); }
+      };
+    }
+    const CARDS_CAR = []; let dlgCar = null;
+    function mediaNode(p, inCard) {
+      const c = carousel(p, { auto: !!inCard });
+      if (inCard) CARDS_CAR.push(c); else { if (dlgCar) dlgCar.destroy(); dlgCar = c; c.start(); }
+      c.node._car = c; return c.node;
     }
     const dlg = $("#dlg");
     function openDetail(p) {
@@ -1051,27 +1303,57 @@
       const i = PROJECTS.indexOf(p);
       acts.append(el("button", { class: "btn small primary", text: "Mainkan di sini", onclick: () => { dlg.close(); selectGame(i); $("#play").scrollIntoView(); } }));
       if (safeUrl(p.itch.pageUrl)) acts.append(el("a", { class: "btn small", href: p.itch.pageUrl, target: "_blank", rel: "noopener noreferrer", text: "Halaman itch.io" }));
-      b.append(acts); dlg.showModal();
+      b.append(acts); dlg.showModal(); if (dlgCar) dlgCar.hoverIn(); /* Detail: putar video proyek selama dialog terbuka */
     }
     dlg.addEventListener("click", e => { if (e.target === dlg) dlg.close(); });
+    dlg.addEventListener("close", () => { if (dlgCar) { dlgCar.destroy(); dlgCar = null; } $("#dlg-body").textContent = ""; });
     PROJECTS.forEach((p, i) => {
       const acts = el("div", { class: "card-actions" }, [el("button", { class: "btn small primary", text: "Detail", onclick: () => openDetail(p) })]);
       const page = safeUrl(p.itch.pageUrl);
       acts.append(el("a", { class: "btn small", text: "Kunjungi game", href: page || "#play", ...(page ? { target: "_blank", rel: "noopener noreferrer" } : {}), ...(page ? {} : { "aria-disabled": "true" }) }));
-      $("#cards").append(el("article", { class: "card" }, [mediaNode(p), el("div", { class: "card-body" }, [
+      $("#cards").append(el("article", { class: "card" }, [mediaNode(p, true), el("div", { class: "card-body" }, [
         el("h3", { text: p.title }), el("p", { text: p.summary }),
         el("dl", { class: "meta" }, [el("dt", { text: "Genre" }), el("dd", { text: p.genre }), el("dt", { text: "Platform" }), el("dd", { text: p.platform }), el("dt", { text: "Teknologi" }), el("dd", { text: p.tech.join(", ") }), el("dt", { text: "Peran" }), el("dd", { text: p.role })]), acts])]));
     });
 
+    /* ---- hover pada seluruh kartu proyek (container induk), bukan hanya area media ---- */
+    document.querySelectorAll("#cards .card").forEach(card => {
+      const m = card.querySelector(".media"), c = m && m._car;
+      if (!c) return;
+      card.addEventListener("pointerenter", e => { if (e.pointerType === "mouse") c.hoverIn(); });
+      card.addEventListener("pointerleave", e => { if (e.pointerType === "mouse") c.hoverOut(); });
+    });
+    /* ---- carousel proyek: mulai dari slide pertama saat section terlihat, jeda saat tidak terlihat ---- */
+    let projVisible = false;
+    const syncCars = () => CARDS_CAR.forEach(c => (projVisible && !document.hidden) ? c.start() : c.stop());
+    new IntersectionObserver(es => { projVisible = es[es.length - 1].isIntersecting; syncCars(); }, { threshold: 0 }).observe($("#projects"));
+    document.addEventListener("visibilitychange", syncCars);
+
     /* ---- itch.io player ---- */
     let cur = -1, timer;
+    /* Layar penuh: yang diminta fullscreen adalah container .frame (bukan dokumen iframe lintas-origin),
+       dipanggil sinkron dari handler klik agar user activation terjaga. Esc keluar bawaan browser. */
+    const fsEl = () => document.fullscreenElement || document.webkitFullscreenElement;
+    const fsFail = msg => { $("#note").textContent = msg; };
+    function toggleFs() {
+      const fr = $("#frame");
+      if (fsEl()) { const ex = document.exitFullscreen || document.webkitExitFullscreen; if (ex) { const r = ex.call(document); if (r && r.catch) r.catch(() => { }); } return; }
+      const req = fr.requestFullscreen || fr.webkitRequestFullscreen;
+      if (!req) { fsFail("Browser ini tidak mendukung layar penuh untuk game. Gunakan tombol “Buka di itch.io”."); return; }
+      try {
+        const r = req.call(fr);
+        if (r && r.catch) r.catch(e => fsFail("Layar penuh gagal" + (e && e.message ? ": " + e.message : "") + ". Coba lagi atau gunakan tombol “Buka di itch.io”."));
+      } catch (e) { fsFail("Layar penuh gagal. Gunakan tombol “Buka di itch.io”."); }
+    }
+    ["fullscreenchange", "webkitfullscreenchange"].forEach(ev => document.addEventListener(ev, () => { const on = !!fsEl(), b = $("#fs"); b.textContent = on ? "Keluar layar penuh" : "Layar penuh"; b.setAttribute("aria-pressed", on); }));
+    document.addEventListener("webkitfullscreenerror", () => fsFail("Layar penuh ditolak browser. Gunakan tombol “Buka di itch.io”."));
     /* Overlay Play: hanya gambar preview yang dimuat. Iframe itch.io baru dibuat setelah klik. */
     function posterNode(p, onPlay) {
-      const pv = safeUrl((p.media && p.media.src) || p.itch.preview || ""), isVid = /\.(mp4|webm)(\?|$)/i.test(pv);
-      const b = el("button", { class: "poster", type: "button", "aria-label": "Mainkan " + p.title });
+      const pv = safeUrl(p.playThumbnail || ""), isVid = /\.(mp4|webm)(\?|$)/i.test(pv);
+      const b = el("button", { class: "poster" + (pv ? "" : " noimg"), type: "button", "aria-label": "Mainkan " + p.title });
       if (pv && isVid) b.append(el("video", { src: pv + "#t=0.1", muted: "", playsinline: "", preload: "metadata", "aria-hidden": "true" }));
       else if (pv) b.append(el("img", { src: pv, alt: "", loading: "lazy", decoding: "async", width: 640, height: 360 }));
-      else b.append(el("span", { class: "poster-ph", text: "Preview belum diatur. Isi media.src.", "aria-hidden": "true" }));
+      else b.append(el("span", { class: "poster-ph", text: "Thumbnail belum diatur", "aria-hidden": "true" }));
       b.append(el("span", { class: "poster-title", text: p.title }));
       const pb = el("span", { class: "play-btn", "aria-hidden": "true" });
       pb.innerHTML = '<svg viewBox="0 0 24 24" width="26" height="26"><path fill="currentColor" d="M7 4v16l13-8z"/></svg><b>Play</b>';
@@ -1093,13 +1375,13 @@
           frame.textContent = "";
           const f = el("iframe", { src: emb, title: "Main " + p.title, loading: "lazy", allow: "fullscreen; autoplay; gamepad; clipboard-write", allowfullscreen: "", scrolling: "no" });
           f.addEventListener("load", () => { clearTimeout(timer); note.textContent = "Tidak tampil? Gunakan tombol “Buka di itch.io”."; });
-          frame.append(f); fs.disabled = false; fs.onclick = () => (f.requestFullscreen || f.webkitRequestFullscreen || (() => { })).call(f);
+          frame.append(f); fs.disabled = false; fs.onclick = toggleFs;
           note.textContent = "Memuat game…";
           timer = setTimeout(() => { note.textContent = "Embed lambat atau diblokir. Mainkan lewat tombol “Buka di itch.io”."; }, 9000);
         }));
       } else {
         fs.disabled = true; fs.onclick = null;
-        frame.append(el("div", { class: "empty" }, [el("p", {}, ["Belum ada embed untuk game ini.", el("br"), "Isi ", el("code", { text: "itch.embedSrc" }), " di bagian data."])]));
+        frame.append(el("div", { class: "empty" }, [el("p", {}, ["Download dari link dibawah untuk memainkannya"])]));
         note.textContent = page ? "Embed tidak tersedia. Mainkan di itch.io." : "Isi itch.pageUrl agar tombol fallback aktif.";
       }
       const w = $("#widget"); w.textContent = "";
